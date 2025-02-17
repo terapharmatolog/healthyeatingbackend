@@ -9,47 +9,47 @@ import (
 )
 
 // Таблица с базовой информацией о продуктах и их пищевой ценности (данные указаны на 100 г продукта)
-type Foods struct {
-	ID int32 `json:"id"`
+type Food struct {
+	ID int32
 	// Название продукта
-	ProductName string `json:"product_name"`
+	ProductName string
 	// Калорийность (ккал на 100 г)
-	Calories int32 `json:"calories"`
+	Calories int32
 	// Жиры (г на 100 г)
-	Fats pgtype.Numeric `json:"fats"`
+	Fats pgtype.Numeric
 	// Белки (г на 100 г)
-	Proteins pgtype.Numeric `json:"proteins"`
+	Proteins pgtype.Numeric
 	// Углеводы (г на 100 г)
-	Carbohydrates pgtype.Numeric `json:"carbohydrates"`
-	Fiber         pgtype.Numeric `json:"fiber"`
-	Water         pgtype.Numeric `json:"water"`
-	VitaminA      pgtype.Numeric `json:"vitamin_a"`
-	BetaCarotene  pgtype.Numeric `json:"beta_carotene"`
-	AlphaCarotene pgtype.Numeric `json:"alpha_carotene"`
-	VitaminD      pgtype.Numeric `json:"vitamin_d"`
-	VitaminD3     pgtype.Numeric `json:"vitamin_d3"`
-	VitaminE      pgtype.Numeric `json:"vitamin_e"`
-	VitaminK      pgtype.Numeric `json:"vitamin_k"`
-	VitaminC      pgtype.Numeric `json:"vitamin_c"`
-	VitaminB1     pgtype.Numeric `json:"vitamin_b1"`
-	VitaminB2     pgtype.Numeric `json:"vitamin_b2"`
-	VitaminB3     pgtype.Numeric `json:"vitamin_b3"`
-	VitaminB4     pgtype.Numeric `json:"vitamin_b4"`
-	VitaminB5     pgtype.Numeric `json:"vitamin_b5"`
-	VitaminB6     pgtype.Numeric `json:"vitamin_b6"`
-	VitaminB9     pgtype.Numeric `json:"vitamin_b9"`
-	VitaminB12    pgtype.Numeric `json:"vitamin_b12"`
-	Calcium       pgtype.Numeric `json:"calcium"`
-	Iron          pgtype.Numeric `json:"iron"`
-	Magnesium     pgtype.Numeric `json:"magnesium"`
-	Phosphorus    pgtype.Numeric `json:"phosphorus"`
-	Potassium     pgtype.Numeric `json:"potassium"`
-	Sodium        pgtype.Numeric `json:"sodium"`
-	Zinc          pgtype.Numeric `json:"zinc"`
-	Copper        pgtype.Numeric `json:"copper"`
-	Manganese     pgtype.Numeric `json:"manganese"`
-	Selenium      pgtype.Numeric `json:"selenium"`
-	Fluorine      pgtype.Numeric `json:"fluorine"`
+	Carbohydrates pgtype.Numeric
+	Fiber         pgtype.Numeric
+	Water         pgtype.Numeric
+	VitaminA      pgtype.Numeric
+	BetaCarotene  pgtype.Numeric
+	AlphaCarotene pgtype.Numeric
+	VitaminD      pgtype.Numeric
+	VitaminD3     pgtype.Numeric
+	VitaminE      pgtype.Numeric
+	VitaminK      pgtype.Numeric
+	VitaminC      pgtype.Numeric
+	VitaminB1     pgtype.Numeric
+	VitaminB2     pgtype.Numeric
+	VitaminB3     pgtype.Numeric
+	VitaminB4     pgtype.Numeric
+	VitaminB5     pgtype.Numeric
+	VitaminB6     pgtype.Numeric
+	VitaminB9     pgtype.Numeric
+	VitaminB12    pgtype.Numeric
+	Calcium       pgtype.Numeric
+	Iron          pgtype.Numeric
+	Magnesium     pgtype.Numeric
+	Phosphorus    pgtype.Numeric
+	Potassium     pgtype.Numeric
+	Sodium        pgtype.Numeric
+	Zinc          pgtype.Numeric
+	Copper        pgtype.Numeric
+	Manganese     pgtype.Numeric
+	Selenium      pgtype.Numeric
+	Fluorine      pgtype.Numeric
 	// Дата добавления продукта
-	CreatedAt pgtype.Timestamp `json:"created_at"`
+	CreatedAt pgtype.Timestamp
 }

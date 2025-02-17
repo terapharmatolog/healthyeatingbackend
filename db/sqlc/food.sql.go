@@ -13,40 +13,8 @@ import (
 
 const createFood = `-- name: CreateFood :one
 INSERT INTO
-    foods (product_name,
-    calories,
-    fats,
-    proteins,
-    carbohydrates,
-    water,
-    fiber,
-    vitamin_A,
-    beta_carotene,
-    alpha_carotene,
-    vitamin_D,
-    vitamin_D3,
-    vitamin_E,
-    vitamin_K,
-    vitamin_C,
-    vitamin_B1,
-    vitamin_B2,
-    vitamin_B3,
-    vitamin_B4,
-    vitamin_B5,
-    vitamin_B6,
-    vitamin_B9,
-    vitamin_B12,
-    calcium,
-    iron,
-    magnesium,
-    phosphorus,
-    potassium,
-    sodium,
-    zinc,
-    copper,
-    manganese,
-    selenium,
-    fluorine)
+    foods (product_name,calories,fats,
+    proteins,carbohydrates, fiber, water, vitamin_A, beta_carotene,alpha_carotene,vitamin_D, vitamin_D3, vitamin_E,vitamin_K,vitamin_C,vitamin_B1,vitamin_B2,vitamin_B3,vitamin_B4,vitamin_B5,vitamin_B6,vitamin_B9,vitamin_B12,calcium,iron,magnesium,phosphorus,potassium,sodium,zinc,copper, manganese,selenium,fluorine )    
 VALUES
     (
         $1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20,$21,$22,$23,$24,$25,$26,$27,$28,$29,$30,$31,$32,$33,$34
@@ -54,51 +22,51 @@ VALUES
 `
 
 type CreateFoodParams struct {
-	ProductName   string         `json:"product_name"`
-	Calories      int32          `json:"calories"`
-	Fats          pgtype.Numeric `json:"fats"`
-	Proteins      pgtype.Numeric `json:"proteins"`
-	Carbohydrates pgtype.Numeric `json:"carbohydrates"`
-	Water         pgtype.Numeric `json:"water"`
-	Fiber         pgtype.Numeric `json:"fiber"`
-	VitaminA      pgtype.Numeric `json:"vitamin_a"`
-	BetaCarotene  pgtype.Numeric `json:"beta_carotene"`
-	AlphaCarotene pgtype.Numeric `json:"alpha_carotene"`
-	VitaminD      pgtype.Numeric `json:"vitamin_d"`
-	VitaminD3     pgtype.Numeric `json:"vitamin_d3"`
-	VitaminE      pgtype.Numeric `json:"vitamin_e"`
-	VitaminK      pgtype.Numeric `json:"vitamin_k"`
-	VitaminC      pgtype.Numeric `json:"vitamin_c"`
-	VitaminB1     pgtype.Numeric `json:"vitamin_b1"`
-	VitaminB2     pgtype.Numeric `json:"vitamin_b2"`
-	VitaminB3     pgtype.Numeric `json:"vitamin_b3"`
-	VitaminB4     pgtype.Numeric `json:"vitamin_b4"`
-	VitaminB5     pgtype.Numeric `json:"vitamin_b5"`
-	VitaminB6     pgtype.Numeric `json:"vitamin_b6"`
-	VitaminB9     pgtype.Numeric `json:"vitamin_b9"`
-	VitaminB12    pgtype.Numeric `json:"vitamin_b12"`
-	Calcium       pgtype.Numeric `json:"calcium"`
-	Iron          pgtype.Numeric `json:"iron"`
-	Magnesium     pgtype.Numeric `json:"magnesium"`
-	Phosphorus    pgtype.Numeric `json:"phosphorus"`
-	Potassium     pgtype.Numeric `json:"potassium"`
-	Sodium        pgtype.Numeric `json:"sodium"`
-	Zinc          pgtype.Numeric `json:"zinc"`
-	Copper        pgtype.Numeric `json:"copper"`
-	Manganese     pgtype.Numeric `json:"manganese"`
-	Selenium      pgtype.Numeric `json:"selenium"`
-	Fluorine      pgtype.Numeric `json:"fluorine"`
+	ProductName   string
+	Calories      int32
+	Fats          pgtype.Numeric
+	Proteins      pgtype.Numeric
+	Carbohydrates pgtype.Numeric
+	Fiber         pgtype.Numeric
+	Water         pgtype.Numeric
+	VitaminA      pgtype.Numeric
+	BetaCarotene  pgtype.Numeric
+	AlphaCarotene pgtype.Numeric
+	VitaminD      pgtype.Numeric
+	VitaminD3     pgtype.Numeric
+	VitaminE      pgtype.Numeric
+	VitaminK      pgtype.Numeric
+	VitaminC      pgtype.Numeric
+	VitaminB1     pgtype.Numeric
+	VitaminB2     pgtype.Numeric
+	VitaminB3     pgtype.Numeric
+	VitaminB4     pgtype.Numeric
+	VitaminB5     pgtype.Numeric
+	VitaminB6     pgtype.Numeric
+	VitaminB9     pgtype.Numeric
+	VitaminB12    pgtype.Numeric
+	Calcium       pgtype.Numeric
+	Iron          pgtype.Numeric
+	Magnesium     pgtype.Numeric
+	Phosphorus    pgtype.Numeric
+	Potassium     pgtype.Numeric
+	Sodium        pgtype.Numeric
+	Zinc          pgtype.Numeric
+	Copper        pgtype.Numeric
+	Manganese     pgtype.Numeric
+	Selenium      pgtype.Numeric
+	Fluorine      pgtype.Numeric
 }
 
-func (q *Queries) CreateFood(ctx context.Context, arg CreateFoodParams) (Foods, error) {
+func (q *Queries) CreateFood(ctx context.Context, arg CreateFoodParams) (Food, error) {
 	row := q.db.QueryRow(ctx, createFood,
 		arg.ProductName,
 		arg.Calories,
 		arg.Fats,
 		arg.Proteins,
 		arg.Carbohydrates,
-		arg.Water,
 		arg.Fiber,
+		arg.Water,
 		arg.VitaminA,
 		arg.BetaCarotene,
 		arg.AlphaCarotene,
@@ -127,7 +95,7 @@ func (q *Queries) CreateFood(ctx context.Context, arg CreateFoodParams) (Foods, 
 		arg.Selenium,
 		arg.Fluorine,
 	)
-	var i Foods
+	var i Food
 	err := row.Scan(
 		&i.ID,
 		&i.ProductName,
@@ -183,9 +151,9 @@ SELECT id, product_name, calories, fats, proteins, carbohydrates, fiber, water, 
 WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetFood(ctx context.Context, id int32) (Foods, error) {
+func (q *Queries) GetFood(ctx context.Context, id int32) (Food, error) {
 	row := q.db.QueryRow(ctx, getFood, id)
-	var i Foods
+	var i Food
 	err := row.Scan(
 		&i.ID,
 		&i.ProductName,
@@ -227,22 +195,27 @@ func (q *Queries) GetFood(ctx context.Context, id int32) (Foods, error) {
 	return i, err
 }
 
-const listFoods = `-- name: ListFoods :many
+const listFood = `-- name: ListFood :many
 SELECT id, product_name, calories, fats, proteins, carbohydrates, fiber, water, vitamin_a, beta_carotene, alpha_carotene, vitamin_d, vitamin_d3, vitamin_e, vitamin_k, vitamin_c, vitamin_b1, vitamin_b2, vitamin_b3, vitamin_b4, vitamin_b5, vitamin_b6, vitamin_b9, vitamin_b12, calcium, iron, magnesium, phosphorus, potassium, sodium, zinc, copper, manganese, selenium, fluorine, created_at FROM foods
 ORDER BY id
 LIMIT $1
 OFFSET $2
 `
 
-func (q *Queries) ListFoods(ctx context.Context, limit int32, offset int32) ([]Foods, error) {
-	rows, err := q.db.Query(ctx, listFoods, limit, offset)
+type ListFoodParams struct {
+	Limit  int32
+	Offset int32
+}
+
+func (q *Queries) ListFood(ctx context.Context, arg ListFoodParams) ([]Food, error) {
+	rows, err := q.db.Query(ctx, listFood, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Foods
+	var items []Food
 	for rows.Next() {
-		var i Foods
+		var i Food
 		if err := rows.Scan(
 			&i.ID,
 			&i.ProductName,
@@ -292,120 +265,16 @@ func (q *Queries) ListFoods(ctx context.Context, limit int32, offset int32) ([]F
 }
 
 const updateFood = `-- name: UpdateFood :exec
-UPDATE foods
-SET
-    product_name = COALESCE($2, product_name),
-    calories = COALESCE($3, calories),
-    fats = COALESCE($4, fats),
-    proteins = COALESCE($5, proteins),
-    carbohydrates = COALESCE($6, carbohydrates),
-    water = COALESCE($7, water),
-    fiber = COALESCE($8, fiber),
-    vitamin_A = COALESCE($9, vitamin_A),
-    beta_carotene = COALESCE($10, beta_carotene),
-    alpha_carotene = COALESCE($11, alpha_carotene),
-    vitamin_D = COALESCE($12, vitamin_D),
-    vitamin_D3 = COALESCE($13, vitamin_D3),
-    vitamin_E = COALESCE($14, vitamin_E),
-    vitamin_K = COALESCE($15, vitamin_K),
-    vitamin_C = COALESCE($16, vitamin_C),
-    vitamin_B1 = COALESCE($17, vitamin_B1),
-    vitamin_B2 = COALESCE($18, vitamin_B2),
-    vitamin_B3 = COALESCE($19, vitamin_B3),
-    vitamin_B4 = COALESCE($20, vitamin_B4),
-    vitamin_B5 = COALESCE($21, vitamin_B5),
-    vitamin_B6 = COALESCE($22, vitamin_B6),
-    vitamin_B9 = COALESCE($23, vitamin_B9),
-    vitamin_B12 = COALESCE($24, vitamin_B12),
-    calcium = COALESCE($25, calcium),
-    iron = COALESCE($26, iron),
-    magnesium = COALESCE($27, magnesium),
-    phosphorus = COALESCE($28, phosphorus),
-    potassium = COALESCE($29, potassium),
-    sodium = COALESCE($30, sodium),
-    zinc = COALESCE($31, zinc),
-    copper = COALESCE($32, copper),
-    manganese = COALESCE($33, manganese),
-    selenium = COALESCE($34, selenium),
-    fluorine = COALESCE($35, fluorine)
+UPDATE foods SET product_name = $2
 WHERE id = $1
 `
 
 type UpdateFoodParams struct {
-	ID            int32          `json:"id"`
-	ProductName   string         `json:"product_name"`
-	Calories      int32          `json:"calories"`
-	Fats          pgtype.Numeric `json:"fats"`
-	Proteins      pgtype.Numeric `json:"proteins"`
-	Carbohydrates pgtype.Numeric `json:"carbohydrates"`
-	Water         pgtype.Numeric `json:"water"`
-	Fiber         pgtype.Numeric `json:"fiber"`
-	VitaminA      pgtype.Numeric `json:"vitamin_a"`
-	BetaCarotene  pgtype.Numeric `json:"beta_carotene"`
-	AlphaCarotene pgtype.Numeric `json:"alpha_carotene"`
-	VitaminD      pgtype.Numeric `json:"vitamin_d"`
-	VitaminD3     pgtype.Numeric `json:"vitamin_d3"`
-	VitaminE      pgtype.Numeric `json:"vitamin_e"`
-	VitaminK      pgtype.Numeric `json:"vitamin_k"`
-	VitaminC      pgtype.Numeric `json:"vitamin_c"`
-	VitaminB1     pgtype.Numeric `json:"vitamin_b1"`
-	VitaminB2     pgtype.Numeric `json:"vitamin_b2"`
-	VitaminB3     pgtype.Numeric `json:"vitamin_b3"`
-	VitaminB4     pgtype.Numeric `json:"vitamin_b4"`
-	VitaminB5     pgtype.Numeric `json:"vitamin_b5"`
-	VitaminB6     pgtype.Numeric `json:"vitamin_b6"`
-	VitaminB9     pgtype.Numeric `json:"vitamin_b9"`
-	VitaminB12    pgtype.Numeric `json:"vitamin_b12"`
-	Calcium       pgtype.Numeric `json:"calcium"`
-	Iron          pgtype.Numeric `json:"iron"`
-	Magnesium     pgtype.Numeric `json:"magnesium"`
-	Phosphorus    pgtype.Numeric `json:"phosphorus"`
-	Potassium     pgtype.Numeric `json:"potassium"`
-	Sodium        pgtype.Numeric `json:"sodium"`
-	Zinc          pgtype.Numeric `json:"zinc"`
-	Copper        pgtype.Numeric `json:"copper"`
-	Manganese     pgtype.Numeric `json:"manganese"`
-	Selenium      pgtype.Numeric `json:"selenium"`
-	Fluorine      pgtype.Numeric `json:"fluorine"`
+	ID          int32
+	ProductName string
 }
 
 func (q *Queries) UpdateFood(ctx context.Context, arg UpdateFoodParams) error {
-	_, err := q.db.Exec(ctx, updateFood,
-		arg.ID,
-		arg.ProductName,
-		arg.Calories,
-		arg.Fats,
-		arg.Proteins,
-		arg.Carbohydrates,
-		arg.Water,
-		arg.Fiber,
-		arg.VitaminA,
-		arg.BetaCarotene,
-		arg.AlphaCarotene,
-		arg.VitaminD,
-		arg.VitaminD3,
-		arg.VitaminE,
-		arg.VitaminK,
-		arg.VitaminC,
-		arg.VitaminB1,
-		arg.VitaminB2,
-		arg.VitaminB3,
-		arg.VitaminB4,
-		arg.VitaminB5,
-		arg.VitaminB6,
-		arg.VitaminB9,
-		arg.VitaminB12,
-		arg.Calcium,
-		arg.Iron,
-		arg.Magnesium,
-		arg.Phosphorus,
-		arg.Potassium,
-		arg.Sodium,
-		arg.Zinc,
-		arg.Copper,
-		arg.Manganese,
-		arg.Selenium,
-		arg.Fluorine,
-	)
+	_, err := q.db.Exec(ctx, updateFood, arg.ID, arg.ProductName)
 	return err
 }
